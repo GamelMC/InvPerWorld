@@ -19,9 +19,7 @@ package de.gamelmc.perworldinventory.main;
  */
 
 import de.gamelmc.perworldinventory.commands.CommandInv;
-import de.gamelmc.perworldinventory.commands.CommandInvTest;
-import de.gamelmc.perworldinventory.listener.InteractListener;
-import de.gamelmc.perworldinventory.listener.WorldSwitchListener;
+import de.gamelmc.perworldinventory.listener.*;
 import de.gamelmc.perworldinventory.utils.InventoryHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -45,8 +43,10 @@ public class PerWorldInventory extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new WorldSwitchListener(), this);
         pm.registerEvents(new InteractListener(), this);
+        pm.registerEvents(new QuitListener(), this);
+        pm.registerEvents(new JoinListener(), this);
+        pm.registerEvents(new MoveListener(), this);
         this.getCommand("inv").setExecutor(new CommandInv());
-        this.getCommand("invtest").setExecutor(new CommandInvTest());
 
     }
 

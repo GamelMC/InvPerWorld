@@ -18,39 +18,36 @@ package de.gamelmc.perworldinventory.listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import de.gamelmc.perworldinventory.main.PerWorldInventory;
 import de.gamelmc.perworldinventory.utils.InventoryHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.IOException;
 
-public class WorldSwitchListener implements Listener {
+public class QuitListener implements Listener {
 
     private InventoryHelper inventoryHelper = new InventoryHelper();
 
     @EventHandler
-    public void onWorldSwitch(PlayerChangedWorldEvent e) {
+    public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        p.setMetadata("switching", new FixedMetadataValue(PerWorldInventory.getPlugin(), 1));
-        p.sendMessage(PerWorldInventory.prefix + "Speichere Daten...");
         try {
-            inventoryHelper.saveInventory(p, e.getFrom());
+            inventoryHelper.saveInventory(p, p.getWorld());
         } catch (IOException ex) {
-            p.kickPlayer("Interner Server Fehler.");
+            ex.printStackTrace();
         }
-        p.sendMessage(PerWorldInventory.prefix + "Lade Daten...");
+    }
+
+    @EventHandler
+    public void onKick(PlayerKickEvent e) {
+        Player p = e.getPlayer();
         try {
-            inventoryHelper.restoreInventory(p, p.getWorld());
+            inventoryHelper.saveInventory(p, p.getWorld());
         } catch (IOException ex) {
-            p.sendMessage(PerWorldInventory.prefix + "Es sieht so aus als ob du diese Welt noch nie betreten hättest, dein Inventar ist leer.");
-            p.getInventory().clear();
-            p.removeMetadata("switching", PerWorldInventory.getPlugin());
+            ex.printStackTrace();
         }
-        p.sendMessage(PerWorldInventory.prefix + "Daten erfolgreich geladen!");
-        p.removeMetadata("switching", PerWorldInventory.getPlugin());
     }
 }

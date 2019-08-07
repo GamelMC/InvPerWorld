@@ -79,8 +79,9 @@ public class InventoryHelper {
         FileConfiguration c = YamlConfiguration.loadConfiguration(f);
         ItemStack[] content;
         content = ((List<ItemStack>) c.get("inventory.content")).toArray(new ItemStack[0]);
-        Inventory inv = Bukkit.createInventory(p, 4*9, "Inventar von " + target + "in " + world);
+        Inventory inv = Bukkit.createInventory(p, 4*9, "§6" + target + "§c/§6" + world);
         inv.setContents(content);
+        p.openInventory(inv);
     }
 
 
