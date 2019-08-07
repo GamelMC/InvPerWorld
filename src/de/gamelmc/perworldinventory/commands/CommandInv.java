@@ -46,11 +46,11 @@ public class CommandInv implements CommandExecutor {
             return false;
         }
         try {
-            inventoryHelper.openInventory(p, args[1], args[2]);
+            inventoryHelper.openInventory(p, args[0], args[1]);
         } catch (IOException e) {
             p.sendMessage("§cDie angeforderte Datei wurde nicht gefunden.");
         }
-        
+
         return false;
     }
 }

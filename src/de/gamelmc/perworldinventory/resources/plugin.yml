@@ -1,11 +1,9 @@
 name: GamelInvPerWorld
 author: GamelMC Developement Team
-version: 2019.08.06.01
+version: 2019.08.07.01
 authors:
   - Karatek_HD
 main: de.gamelmc.perworldinventory.main.PerWorldInventory
 commands:
   inv:
     description: Öffnet das Inventar eines Spielers.
-  invtest:
-    description:
