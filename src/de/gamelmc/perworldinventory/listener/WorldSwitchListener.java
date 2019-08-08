@@ -20,6 +20,7 @@ package de.gamelmc.perworldinventory.listener;
 
 import de.gamelmc.perworldinventory.main.PerWorldInventory;
 import de.gamelmc.perworldinventory.utils.InventoryHelper;
+import de.gamelmc.perworldinventory.utils.MessageGetter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,27 +31,28 @@ import java.io.IOException;
 
 public class WorldSwitchListener implements Listener {
 
+    private MessageGetter messageGetter = new MessageGetter();
     private InventoryHelper inventoryHelper = new InventoryHelper();
 
     @EventHandler
     public void onWorldSwitch(PlayerChangedWorldEvent e) {
         Player p = e.getPlayer();
         p.setMetadata("switching", new FixedMetadataValue(PerWorldInventory.getPlugin(), 1));
-        p.sendMessage(PerWorldInventory.prefix + "Speichere Daten...");
+        p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("saving"));
         try {
             inventoryHelper.saveInventory(p, e.getFrom());
         } catch (IOException ex) {
-            p.kickPlayer("Interner Server Fehler.");
+            p.kickPlayer(messageGetter.getMessage("internalerror"));
         }
-        p.sendMessage(PerWorldInventory.prefix + "Lade Daten...");
+        p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("loading"));
         try {
             inventoryHelper.restoreInventory(p, p.getWorld());
         } catch (IOException ex) {
-            p.sendMessage(PerWorldInventory.prefix + "Es sieht so aus als ob du diese Welt noch nie betreten hättest, dein Inventar ist leer.");
+            p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("neverthere"));
             p.getInventory().clear();
             p.removeMetadata("switching", PerWorldInventory.getPlugin());
         }
-        p.sendMessage(PerWorldInventory.prefix + "Daten erfolgreich geladen!");
+        p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("success"));
         p.removeMetadata("switching", PerWorldInventory.getPlugin());
     }
 }

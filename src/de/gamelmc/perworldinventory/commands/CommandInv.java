@@ -19,6 +19,7 @@ package de.gamelmc.perworldinventory.commands;
  */
 
 import de.gamelmc.perworldinventory.utils.InventoryHelper;
+import de.gamelmc.perworldinventory.utils.MessageGetter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,27 +29,28 @@ import java.io.IOException;
 public class CommandInv implements CommandExecutor {
 
     private InventoryHelper inventoryHelper = new InventoryHelper();
+    private MessageGetter messageGetter = new MessageGetter();
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("Dieser Befehl kann nur von einem Spieler ausgeführt werden!");
+            sender.sendMessage(messageGetter.getMessage("noplayer"));
             return false;
         }
         Player p = (Player) sender;
         if(!p.hasPermission("invperworld.admin")) {
-            p.sendMessage("§cDazu hast du keine Rechte!");
+            p.sendMessage(messageGetter.getMessage("noperms"));
             return false;
         }
         if(args.length != 2) {
-            p.sendMessage("§cVerwendung: /inv <Spieler> <Welt>");
+            p.sendMessage(messageGetter.getMessage("commandinvusage"));
             return false;
         }
         try {
             inventoryHelper.openInventory(p, args[0], args[1]);
         } catch (IOException e) {
-            p.sendMessage("§cDie angeforderte Datei wurde nicht gefunden.");
+            p.sendMessage(messageGetter.getMessage("filenotfound"));
         }
 
         return false;

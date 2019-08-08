@@ -18,7 +18,7 @@ package de.gamelmc.perworldinventory.listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import de.gamelmc.perworldinventory.main.PerWorldInventory;
+import de.gamelmc.perworldinventory.utils.MessageGetter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,12 +28,14 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class InteractListener implements Listener {
 
+    private MessageGetter messageGetter = new MessageGetter();
+
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent e) {
         Player p = (Player) e.getPlayer();
         if(p.hasMetadata("switching")) {
             e.setCancelled(true);
-            p.sendMessage(PerWorldInventory.prefix + "Bitte warte, bis deine Daten geladen wurden.");
+            p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("waituntilloaded"));
         } else {
             e.setCancelled(false);
         }
@@ -44,7 +46,7 @@ public class InteractListener implements Listener {
         Player p = (Player) e.getPlayer();
         if(p.hasMetadata("switching")) {
             e.setCancelled(true);
-            p.sendMessage(PerWorldInventory.prefix + "Bitte warte, bis deine Daten geladen wurden.");
+            p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("waituntilloaded"));
         } else {
             e.setCancelled(false);
         }
@@ -55,7 +57,7 @@ public class InteractListener implements Listener {
         Player p = (Player) e.getPlayer();
         if(p.hasMetadata("switching")) {
             e.setCancelled(true);
-            p.sendMessage(PerWorldInventory.prefix + "Bitte warte, bis deine Daten geladen wurden.");
+            p.sendMessage(messageGetter.getMessage("prefix") + messageGetter.getMessage("waituntilloaded"));
         } else {
             e.setCancelled(false);
         }

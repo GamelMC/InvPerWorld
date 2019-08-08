@@ -43,7 +43,7 @@ public class InventoryHelper {
         InventoryHelper.inventoryHelper = inventoryHelper;
     }
 
-    PerWorldInventory plugin = PerWorldInventory.getPlugin();
+    private PerWorldInventory plugin = PerWorldInventory.getPlugin();
 
     // Thanks to https://www.spigotmc.org/threads/save-inventory-and-then-load-it.43907/
     public void saveInventory(Player p, World world) throws IOException {

@@ -20,7 +20,9 @@ package de.gamelmc.perworldinventory.main;
 
 import de.gamelmc.perworldinventory.commands.CommandInv;
 import de.gamelmc.perworldinventory.listener.*;
+import de.gamelmc.perworldinventory.utils.ConfigCreator;
 import de.gamelmc.perworldinventory.utils.InventoryHelper;
+import de.gamelmc.perworldinventory.utils.MessageGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,26 +34,29 @@ public class PerWorldInventory extends JavaPlugin {
     public static PerWorldInventory getPlugin() {
         return plugin;
     }
+    private static MessageGetter messageGetter = new MessageGetter();
+    private ConfigCreator configCreator = new ConfigCreator();
 
-    public static String prefix = "§r[§aSwitcher§r] ";
+
 
     @Override
     public void onEnable() {
+
         plugin = this;
-        Bukkit.getConsoleSender().sendMessage("§aGamelInvPerWorld wurde geladen.");
+        plugin.getConfig();
+        configCreator.setup();
         InventoryHelper.setInventoryHelper(new InventoryHelper());
+        MessageGetter.setMessageGetter(new MessageGetter());
+
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new WorldSwitchListener(), this);
-        pm.registerEvents(new InteractListener(), this);
-        pm.registerEvents(new QuitListener(), this);
-        pm.registerEvents(new JoinListener(), this);
-        pm.registerEvents(new MoveListener(), this);
+        pm.registerEvents(new WorldSwitchListener(), plugin);
+        pm.registerEvents(new InteractListener(), plugin);
+        pm.registerEvents(new QuitListener(), plugin);
+        pm.registerEvents(new JoinListener(), plugin);
+        pm.registerEvents(new MoveListener(), plugin);
         this.getCommand("inv").setExecutor(new CommandInv());
+        saveConfig();
 
     }
 
-    @Override
-    public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§aGamelInvPerWorld wurde entladen.");
-    }
 }
