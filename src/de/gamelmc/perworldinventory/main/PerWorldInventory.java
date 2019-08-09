@@ -28,14 +28,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PerWorldInventory extends JavaPlugin {
-
+    private ConfigCreator configCreator = new ConfigCreator();
     private static PerWorldInventory plugin;
 
     public static PerWorldInventory getPlugin() {
         return plugin;
     }
-    private static MessageGetter messageGetter = new MessageGetter();
-    private ConfigCreator configCreator = new ConfigCreator();
+
 
 
 
