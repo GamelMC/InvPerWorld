@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GamelInvPerWorld">
+    <output-path>$PROJECT_DIR$/../Builds/PerWorldInventory</output-path>
+    <root id="archive" name="GamelInvPerWorld.jar">
+      <element id="module-output" name="InvPerWorld" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/de/gamelmc/perworldinventory/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

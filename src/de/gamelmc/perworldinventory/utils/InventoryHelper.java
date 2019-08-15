@@ -26,6 +26,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,7 +82,16 @@ public class InventoryHelper {
         content = ((List<ItemStack>) c.get("inventory.content")).toArray(new ItemStack[0]);
         Inventory inv = Bukkit.createInventory(p, 4*9, "§6" + target + "§c/§6" + world);
         inv.setContents(content);
+        p.setMetadata("inv_view", new FixedMetadataValue(PerWorldInventory.getPlugin(), 1));
         p.openInventory(inv);
+    }
+
+    public void savefrominv(String target, String world, Inventory inventory) throws IOException {
+        String filename = "Inventory_" + target + "_" + world + ".yml";
+        File f = new File(plugin.getDataFolder().getAbsolutePath(), filename);
+        FileConfiguration c = YamlConfiguration.loadConfiguration(f);
+        c.set("inventory.content", inventory.getContents());
+        c.save(f);
     }
 
 

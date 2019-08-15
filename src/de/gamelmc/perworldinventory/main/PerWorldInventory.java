@@ -53,6 +53,9 @@ public class PerWorldInventory extends JavaPlugin {
         pm.registerEvents(new QuitListener(), plugin);
         pm.registerEvents(new JoinListener(), plugin);
         pm.registerEvents(new MoveListener(), plugin);
+
+        // coming soon
+        //pm.registerEvents(new InventoryCloseListener(), plugin);
         this.getCommand("inv").setExecutor(new CommandInv());
         saveConfig();
 
