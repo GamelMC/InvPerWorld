@@ -20,6 +20,7 @@ package de.gamelmc.perworldinventory.utils;
 
 import de.gamelmc.perworldinventory.main.PerWorldInventory;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@SuppressWarnings({"deprecation", "ignored"})
 public class InventoryHelper {
 
     private static InventoryHelper inventoryHelper;
@@ -48,8 +50,7 @@ public class InventoryHelper {
 
     // Thanks to https://www.spigotmc.org/threads/save-inventory-and-then-load-it.43907/
     public void saveInventory(Player p, World world) throws IOException {
-        String filename = "Inventory_" + p.getName() + "_" + world.getName() + ".yml";
-        File f = new File(plugin.getDataFolder().getAbsolutePath(), filename);
+        File f = getFile(p.getName(), world.getName());
         FileConfiguration c = YamlConfiguration.loadConfiguration(f);
         c.set("inventory.armor", p.getInventory().getArmorContents());
         c.set("inventory.content", p.getInventory().getContents());
@@ -58,8 +59,7 @@ public class InventoryHelper {
 
     @SuppressWarnings("unchecked")
     public void restoreInventory(Player p, World world) throws IOException {
-        String filename = "Inventory_" + p.getName() + "_" + world.getName() + ".yml";
-        File f = new File(plugin.getDataFolder().getAbsolutePath(), filename);
+        File f = getFile(p.getName(), world.getName());
         if(!(f.exists())) {
             throw new IOException();
         }
@@ -72,8 +72,7 @@ public class InventoryHelper {
 
     @SuppressWarnings("unchecked")
     public void openInventory(Player p, String target, String world) throws IOException {
-        String filename = "Inventory_" + target +  "_" + world + ".yml";
-        File f = new File(plugin.getDataFolder().getAbsolutePath(), filename);
+        File f = getFile(target, world);
         if(!(f.exists())) {
             throw new IOException();
         }
@@ -87,11 +86,33 @@ public class InventoryHelper {
     }
 
     public void savefrominv(String target, String world, Inventory inventory) throws IOException {
-        String filename = "Inventory_" + target + "_" + world + ".yml";
-        File f = new File(plugin.getDataFolder().getAbsolutePath(), filename);
+        File f = getFile(target, world);
         FileConfiguration c = YamlConfiguration.loadConfiguration(f);
         c.set("inventory.content", inventory.getContents());
         c.save(f);
+    }
+
+
+    private File getFile(String target, String world) {
+        Player p = Bukkit.getPlayer(target);
+        String UUID;
+        if (p != null) {
+            OfflinePlayer op = Bukkit.getOfflinePlayer(target);
+            UUID = op.getUniqueId().toString();
+        } else {
+            UUID = p.getUniqueId().toString();
+        }
+
+        String filename = world + ".yml";
+        File dic = new File(plugin.getDataFolder().getAbsolutePath() + "/inventorys");
+        if (!dic.exists()) {
+            dic.mkdir();
+        }
+        File idDic = new File(plugin.getDataFolder().getAbsolutePath() + "/inventorys/" + UUID);
+        if (!dic.exists()) {
+            idDic.mkdir();
+        }
+        return new File(plugin.getDataFolder().getAbsolutePath() + "/inventorys/" + UUID, filename);
     }
 
 
