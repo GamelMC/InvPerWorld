@@ -19,7 +19,6 @@ package de.gamelmc.perworldinventory.utils;
  */
 
 import de.gamelmc.perworldinventory.main.PerWorldInventory;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
