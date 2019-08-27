@@ -65,6 +65,8 @@ public class MessageGetter {
                     return "§aGamelInvPerWorld wurde geladen!";
                 case "unloaded":
                     return "§aGamelInvPerWorld wurde entladen.";
+                case "updating_file":
+                    return "Suche nach altem Dateityp und update...";
                 default:
                     return "";
             }
@@ -96,6 +98,8 @@ public class MessageGetter {
                     return "§aGamelInvPerWorld is loaded!";
                 case "unloaded":
                     return "§aGamelInvPerWorld is unloaded.";
+                case "updating_file":
+                    return "Searching for old files to update";
                 default:
                     return "";
             }
